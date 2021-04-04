@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TeacherActivity">
+
+    <!--    <com.skydoves.powerspinner.PowerSpinnerView-->
+<!--        android:id="@+id/powerSpinnerView"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="38dp"-->
+<!--        android:hint="Корпус"-->
+<!--        android:textColorHint="@color/white"-->
+<!--        android:background="@drawable/spinner_background"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/etFIOToQR"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/etFIOToQR"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/etFIOToQR"-->
+<!--        app:spinner_divider_color="@color/main_color"-->
+<!--        app:spinner_divider_show="true"-->
+<!--        app:spinner_divider_size="0.4dp"-->
+<!--        app:spinner_item_array="@array/corpuses"-->
+<!--        app:spinner_popup_animation="dropdown"-->
+<!--        app:spinner_popup_elevation="14dp" />-->
+
+<!--    app:spinner_popup_background="@color/background800"-->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="248dp"
+        android:layout_height="247dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnGenQr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_button"
+        android:text="сгенерировать QR код"
+        app:backgroundTint="@null"
+        app:icon="@drawable/ic_qr_code"
+        app:layout_constraintEnd_toEndOf="@+id/etFIOToQR"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etFIOToQR"
+        app:layout_constraintTop_toBottomOf="@+id/spLetters" />
+
+    <EditText
+        android:id="@+id/etFIOToQR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/spinner_popup_background"
+        android:ems="10"
+        android:hint="ФИО"
+        android:inputType="textPersonName"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Spinner
+        android:id="@+id/spCorpuses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/spinner_popup_background"
+        android:entries="@array/corpuses"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/etFIOToQR"
+        app:layout_constraintStart_toStartOf="@+id/etFIOToQR"
+        app:layout_constraintTop_toBottomOf="@+id/etFIOToQR" />
+
+    <Spinner
+        android:id="@+id/spClasses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/spinner_popup_background"
+        android:entries="@array/classes"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/etFIOToQR"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etFIOToQR"
+        app:layout_constraintTop_toBottomOf="@+id/spCorpuses" />
+
+    <Spinner
+        android:id="@+id/spLetters"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/spinner_popup_background"
+        android:entries="@array/letters"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/etFIOToQR"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etFIOToQR"
+        app:layout_constraintTop_toBottomOf="@+id/spClasses" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spCorpuses"
+        app:layout_constraintEnd_toEndOf="@+id/spCorpuses"
+        app:layout_constraintTop_toTopOf="@+id/spCorpuses"
+        app:srcCompat="@drawable/ic_arrow_spinner" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spClasses"
+        app:layout_constraintEnd_toEndOf="@+id/spClasses"
+        app:layout_constraintTop_toTopOf="@+id/spClasses"
+        app:srcCompat="@drawable/ic_arrow_spinner" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spLetters"
+        app:layout_constraintEnd_toEndOf="@+id/spLetters"
+        app:layout_constraintTop_toTopOf="@+id/spLetters"
+        app:srcCompat="@drawable/ic_arrow_spinner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

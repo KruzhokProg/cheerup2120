@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/auth_background"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="16dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <CheckBox
+        android:id="@+id/cbPersonalData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:buttonTint="@color/main_color"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Я согласен на обработку своих персональных данных"
+        app:layout_constraintEnd_toEndOf="@+id/tvStudentQRFIO"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvStudentQRFIO"
+        app:layout_constraintTop_toBottomOf="@+id/tvStudentQRCorpusClass" />
+
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Подтвердить"
+        android:textSize="12sp"
+
+
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cbPersonalData"
+        app:layout_constraintTop_toBottomOf="@+id/cbPersonalData" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Отказаться"
+        android:textSize="12sp"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnOk" />
+
+    <TextView
+        android:id="@+id/tvStudentQRFIO"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Ивановиароворов Иван Иванович"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvStudentQRCorpusClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="ш1   8а"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tvStudentQRFIO"
+        app:layout_constraintTop_toBottomOf="@+id/tvStudentQRFIO" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.TeacherFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTeacherLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="96dp"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Войти"
+            app:icon="@drawable/ic_account"
+            android:textSize="14sp"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btnStudentSignin"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/rounded_button"-->
+<!--            android:text="Авторизация"-->
+<!--            app:backgroundTint="@null"-->
+<!--            app:icon="@drawable/ic_qr_code"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <EditText
+            android:id="@+id/etTeacherLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="130dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/auth_rounded"
+            android:ems="10"
+            android:hint="Логин"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etTeacherPass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/auth_rounded"
+            android:ems="10"
+            android:hint="Пароль"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTeacherLogin" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
