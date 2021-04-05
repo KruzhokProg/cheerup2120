@@ -1,13 +1,13 @@
 package com.example.cheerup2120
 
 import android.annotation.SuppressLint
-import android.view.textclassifier.TextClassifier.TYPE_URL
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.fragment.app.FragmentManager
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import java.nio.charset.Charset
 
 class MyImageAnalyzer(private val fragmentManager: FragmentManager): ImageAnalysis.Analyzer {
 
@@ -41,10 +41,17 @@ class MyImageAnalyzer(private val fragmentManager: FragmentManager): ImageAnalys
                 //For now I am using it just for URL
                 Barcode.TYPE_TEXT -> {
                     //we have the URL here
-                   // val studentInfo = barcode.rawValue
+                    // val studentInfo = barcode.rawValue
                     if (!bottomSheet.isAdded)
                         bottomSheet.show(fragmentManager, "")
                     barcode.rawValue?.let { bottomSheet.updateText(it) }
+                    //val w1251: Charset = charset("Windows-1251")
+                    //val textToDisplay = barcode.rawBytes?.let { String(it, w1251) }
+//                    barcode.rawBytes?.let {
+//                        if (textToDisplay != null) {
+//                            bottomSheet.updateText(textToDisplay)
+//                        }
+//                    }
                 }
             }
         }

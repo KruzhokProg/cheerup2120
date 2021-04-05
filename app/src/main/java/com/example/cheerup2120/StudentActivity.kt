@@ -18,9 +18,9 @@ class StudentActivity : AppCompatActivity() {
         binding = ActivityStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        binding.btnScan.setOnClickListener(View.OnClickListener {
-//            scanQRCode()
-//        })
+        //binding.btnScan.setOnClickListener(View.OnClickListener {
+            //scanQRCode()
+        //})
     }
 
     override fun onBackPressed() {

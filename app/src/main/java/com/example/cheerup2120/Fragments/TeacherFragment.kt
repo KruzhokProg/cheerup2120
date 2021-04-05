@@ -61,6 +61,9 @@ class TeacherFragment : Fragment() {
                     database.child("Учителя").equalTo(email).addValueEventListener(listener)
 
                     }
+                    .addOnFailureListener{
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    }
 
                 }
 
