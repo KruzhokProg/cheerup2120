@@ -44,7 +44,9 @@ class MyImageAnalyzer(private val fragmentManager: FragmentManager): ImageAnalys
                     // val studentInfo = barcode.rawValue
                     if (!bottomSheet.isAdded)
                         bottomSheet.show(fragmentManager, "")
-                    barcode.rawValue?.let { bottomSheet.updateText(it) }
+                    val tmp = barcode.rawValue!!
+                    bottomSheet.updateText(tmp)
+                    //barcode.rawValue?.let { bottomSheet.updateText(it) }
                     //val w1251: Charset = charset("Windows-1251")
                     //val textToDisplay = barcode.rawBytes?.let { String(it, w1251) }
 //                    barcode.rawBytes?.let {

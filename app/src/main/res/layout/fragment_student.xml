@@ -15,6 +15,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:background="@drawable/rounded_button"
+            android:fontFamily="@font/roboto_medium"
             android:text="Авторизация"
             app:backgroundTint="@null"
             app:icon="@drawable/ic_qr_code"

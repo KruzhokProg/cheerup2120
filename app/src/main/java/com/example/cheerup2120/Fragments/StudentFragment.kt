@@ -38,7 +38,6 @@ class StudentFragment : Fragment() {
            //val intent = Intent(context, ScanQRActivity::class.java)
             //startActivity(intent)
         }
-
         return binding.root
     }
 }

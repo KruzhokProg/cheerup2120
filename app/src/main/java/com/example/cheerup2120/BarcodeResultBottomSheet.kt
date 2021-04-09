@@ -8,9 +8,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.cheerup2120.Utils.prefs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class BarcodeResultBottomSheet: BottomSheetDialogFragment() {
+
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,17 +27,31 @@ class BarcodeResultBottomSheet: BottomSheetDialogFragment() {
 
     fun updateText(text: String) {
         view?.apply {
-            findViewById<TextView>(R.id.tvStudentQRFIO)?.text = text
+
+            val studentInfo = text.split(", ")
+            val fio = studentInfo[0]
+            val corpuse = studentInfo[1]
+            val grade = studentInfo[2]
+            val letter = studentInfo[3]
+            val teacherEmail = studentInfo[4]
+            val student = Student(fio, corpuse, grade, letter, "")
+
+            findViewById<TextView>(R.id.tvStudentQRFIO)?.text = fio
+            findViewById<TextView>(R.id.tvStudentQRCorpusClass)?.text = corpuse + " " + grade + letter
             findViewById<Button>(R.id.btnOk).setOnClickListener{
                 //startActivity(Intent(it.context, StudentActivity::class.java).also { it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)}
                 //        .also { it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)})
+                val uuid = UUID.randomUUID().toString()
+                database = Firebase.database.reference
+                database.child("Учащиеся").child(uuid).setValue(student)
+                database.child("Учителя").child(teacherEmail).child("$corpuse").child("$grade$letter").child(uuid).setValue("")
 
-
+                prefs.myUUId = uuid
+                prefs.studentFIO = fio
+                prefs.studentClass = "$grade$letter     $corpuse"
+                prefs.teacherEmail = ""
                 val intent = Intent(it.context, StudentActivity::class.java)
                 startActivity(intent)
-            }
-            findViewById<Button>(R.id.btnCancel).setOnClickListener{
-                Toast.makeText(context, " Тогда ничего не получится :((", Toast.LENGTH_SHORT).show()
             }
         }
     }

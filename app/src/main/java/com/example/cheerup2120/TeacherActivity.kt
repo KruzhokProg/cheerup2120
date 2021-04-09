@@ -1,11 +1,13 @@
 package com.example.cheerup2120
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cheerup2120.Utils.prefs
 import com.example.cheerup2120.databinding.ActivityTeacherBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -25,7 +27,12 @@ class TeacherActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnGenQr.setOnClickListener(View.OnClickListener {
-            var qrText = binding.etFIOToQR.text.toString()
+            val fio = binding.etFIOToQR.text.toString()
+            val corpuse = binding.spCorpuses.selectedItem.toString()
+            val grade = binding.spClasses.selectedItem.toString()
+            val letter = binding.spLetters.selectedItem.toString()
+            val teacherEmail = intent.getStringExtra("teacherEmail")
+            val qrText = "$fio, $corpuse, $grade, $letter, $teacherEmail"
             val bitmap = generateQRCode(qrText)
             binding.imageView.setImageBitmap(bitmap)
         })
@@ -53,5 +60,10 @@ class TeacherActivity : AppCompatActivity() {
             Log.d("abc", "generateQRCode: ${e.message}")
         }
         return bitmap
+    }
+
+    fun exit_teacher_account(view: View) {
+        prefs.teacherEmail = ""
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }
