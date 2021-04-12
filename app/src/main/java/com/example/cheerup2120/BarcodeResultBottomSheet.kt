@@ -44,7 +44,7 @@ class BarcodeResultBottomSheet: BottomSheetDialogFragment() {
                 val uuid = UUID.randomUUID().toString()
                 database = Firebase.database.reference
                 database.child("Учащиеся").child(uuid).setValue(student)
-                database.child("Учителя").child(teacherEmail).child("$corpuse").child("$grade$letter").child(uuid).setValue("")
+                database.child("Учителя").child(teacherEmail).child(corpuse).child(grade).child(letter).child(uuid).setValue("")
 
                 prefs.myUUId = uuid
                 prefs.studentFIO = fio

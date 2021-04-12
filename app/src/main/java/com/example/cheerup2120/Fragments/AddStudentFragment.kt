@@ -1,5 +1,6 @@
 package com.example.cheerup2120.Fragments
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
+import com.example.cheerup2120.MainActivity
 import com.example.cheerup2120.R
 import com.example.cheerup2120.Utils.prefs
 import com.example.cheerup2120.databinding.FragmentAddStudentBinding
@@ -48,6 +50,13 @@ class AddStudentFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         binding = FragmentAddStudentBinding.inflate(inflater, container, false)
+
+        binding.btnExitTeacher.setOnClickListener{
+            prefs.teacherEmail=""
+            prefs.myUUId=""
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
+
         val corpuses = arrayOf("ш1","ш2","ш3","ш4")
         val classes = arrayOf("1","2","3","4","5","6","7","8","9","10","11")
         val letters = arrayOf("а", "б", "в", "г", "д", "е", "ж", "з", "и", "к", "л", "м", "н", "о", "п")
@@ -90,6 +99,7 @@ class AddStudentFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
 
             }
+
         })
 
         binding.btnGenQr.setOnClickListener(View.OnClickListener {

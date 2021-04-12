@@ -68,7 +68,7 @@ class StudentActivity : AppCompatActivity() {
 
     fun imgvGoodMood_Click(view: View) {
         database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("good")
-        binding.imgvGoodMood.zoomOut(1500, binding.imgvGoodMood)
+        binding.imgvGoodMood.zoomOut(1500)
                 .mergeWith(binding.imgvNeutralMood.zoomIn(1500))
                 .mergeWith(binding.imgvBadMood.zoomIn(1500))
                 .subscribe()
@@ -76,7 +76,7 @@ class StudentActivity : AppCompatActivity() {
 
     fun imgvNeutralMood_Click(view: View) {
         database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("normal")
-        binding.imgvNeutralMood.zoomOut(1500, binding.imgvNeutralMood)
+        binding.imgvNeutralMood.zoomOut(1500)
                 .mergeWith(binding.imgvGoodMood.zoomIn(1500))
                 .mergeWith(binding.imgvBadMood.zoomIn(1500))
                 .subscribe()
@@ -84,7 +84,7 @@ class StudentActivity : AppCompatActivity() {
 
     fun imgvBadMood_Click(view: View) {
         database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("bad")
-        binding.imgvBadMood.zoomOut(1500, binding.imgvBadMood)
+        binding.imgvBadMood.zoomOut(1500)
                 .mergeWith(binding.imgvGoodMood.zoomIn(1500))
                 .mergeWith(binding.imgvNeutralMood.zoomIn(1500))
                 .subscribe()
@@ -101,6 +101,7 @@ class StudentActivity : AppCompatActivity() {
         binding.imgvNeutralMood.visibility = mode
         binding.tvMoodComment.visibility = View.VISIBLE
         binding.pbLoadStudentVoteState.visibility = View.INVISIBLE
+
         when(mode){
             View.VISIBLE -> binding.imgvVoteDone.visibility = View.INVISIBLE
             View.INVISIBLE -> binding.imgvVoteDone.visibility = View.VISIBLE
@@ -130,15 +131,13 @@ class StudentActivity : AppCompatActivity() {
                 binding.imgvAnsDone.scaleY = 0f
                 binding.imgvVoteDone.visibility = View.VISIBLE
                 binding.imgvAnsDone.visibility = View.VISIBLE
-                if(moodValue == "bad"){
-                    binding.imgvAnsDone.setImageResource(R.drawable.ic_thumb_bad)
+
+                when(moodValue){
+                    "bad" -> binding.imgvAnsDone.setImageResource(R.drawable.ic_thumb_bad)
+                    "normal" -> binding.imgvAnsDone.setImageResource(R.drawable.ic_thumb_neutral)
+                     else -> binding.imgvAnsDone.setImageResource(R.drawable.ic_thumb_good)
                 }
-                else if(moodValue == "normal"){
-                    binding.imgvAnsDone.setImageResource(R.drawable.ic_thumb_neutral)
-                }
-                else{
-                    binding.imgvAnsDone.setImageResource(R.drawable.ic_thumb_good)
-                }
+
 
                 binding.imgvVoteDone.fadeIn(1000).subscribe()
                 binding.imgvAnsDone.fadeIn(1000).subscribe()
@@ -200,11 +199,11 @@ class StudentActivity : AppCompatActivity() {
         }
     }
 
-    fun View.zoomOut(duration: Long, imgv: ImageView): Completable{
+    fun View.zoomOut(duration: Long): Completable{
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getRealMetrics(metrics)
         var centerY : Float = metrics.heightPixels.toFloat()/2
-        val moodCenterPosition = centerY - imgv.y
+        val moodCenterPosition = centerY - this.y
         val animationSubject = CompletableSubject.create()
         return animationSubject.doOnSubscribe{
             ViewCompat.animate(this)
