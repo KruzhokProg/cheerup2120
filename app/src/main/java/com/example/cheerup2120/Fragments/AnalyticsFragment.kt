@@ -35,13 +35,14 @@ class AnalyticsFragment : Fragment() {
 
     private lateinit var binding: FragmentAnalyticsBinding
     private lateinit var database: DatabaseReference
-    private lateinit var teacherInfo: Map<String, Map<String, Map<String, Any>>>
-    private lateinit var studentMood: Map<String, String>
-    private var corpuseList: ArrayList<String> = ArrayList()
-    private var gradeList: ArrayList<String> = ArrayList()
-    private var letterList: ArrayList<String> = ArrayList()
-    private var studentList: ArrayList<String> = ArrayList()
+    private lateinit var teacherInfo: Map<String, Map<String, Map<String, Map<String, Map<String, Any>>>>>
+//    private lateinit var studentMood: Map<String, String>
+//    private var corpuseList: ArrayList<String> = ArrayList()
+//    private var gradeList: ArrayList<String> = ArrayList()
+//    private var letterList: ArrayList<String> = ArrayList()
+//    private var studentList: ArrayList<String> = ArrayList()
     private var analyticsList: ArrayList<Analytics> = ArrayList()
+    var adapter: AnalyticsAdapter? = null
 //    private var corpuseAdapter: ArrayAdapter<String>? = null
 //    private var classAdapter: ArrayAdapter<String>? = null
 //    private var letterAdapter: ArrayAdapter<String>? = null
@@ -53,88 +54,103 @@ class AnalyticsFragment : Fragment() {
 
         database = Firebase.database.reference
 
+        var analytics = Analytics()
+        database.child("Учителя").child(prefs.teacherEmail).addValueEventListener(
+                object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        analyticsList.clear()
+                        snapshot.children.forEach {
+                            teacherInfo = it.value as Map<String, Map<String, Map<String, Map<String, Map<String, Any>>>>>
+                            for ( (grade, letters) in teacherInfo ){
+                                for ( (letter, uids) in letters ){
+                                    for ( (uid, values) in uids ){
+                                        for( userInfo in values ){
+                                            if(userInfo.key == "username"){
+                                                analytics.fio = userInfo.value as String
+                                            }
+                                            else if(userInfo.key == "mood"){
+                                                if(userInfo.value is Map<String, Any>){
+                                                    for ( (date, moodValue) in userInfo.value){
+                                                        if(date == currentDate){
+                                                            analytics.mood = moodValue as String
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        analyticsList.add(analytics)
+                                        analytics = Analytics()
+                                    }
+                                }
+                            }
+                        }
+                        adapter = AnalyticsAdapter()
+                        val sorted = analyticsList.sortedBy { it.mood }
+                        adapter!!.setData(sorted)
+                        binding.rvTeacherAnalytics.adapter = adapter
+                        binding.pbLoadTeacherAccount.visibility = View.INVISIBLE
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+
+                }
+        )
+
+
         //retrieve teacher's corpuses, classes, letters
-        database.child("Учителя").child(prefs.teacherEmail).get().addOnSuccessListener { snapshot ->
-            snapshot.children.forEach {
+//        database.child("Учителя").child(prefs.teacherEmail).get().addOnSuccessListener { snapshot ->
+//            snapshot.children.forEach {
 
 //                corpuseList.clear()
 //                gradeList.clear()
 //                letterList.clear()
 //                it.key?.let { it1 -> corpuseList.add(it1) }
 
-                teacherInfo = it.value as Map<String, Map<String, Map<String, Any>>>
-                    for ((grade, letters) in teacherInfo) {
+//                teacherInfo = it.value as Map<String, Map<String, Map<String, Any>>>
+//                    for ((grade, letters) in teacherInfo) {
 //                        gradeList.add(grade)
-                        for ((letter, ids) in letters) {
-                            for (id in ids){
-                                studentList.add(id.toString())
-                            }
+//                        for ((letter, ids) in letters) {
+//                            for (id in ids){
+//                                studentList.add(id.toString())
+//                            }
 //                            letterList.add(letter)
 //                            for ((id, value) in ids) {
 //                                studentList.add(id)
 //                            }
-                        }
-                    }
-                }
+//                        }
+//                    }
+//                }
 
-            var analytics: Analytics
-            studentList.forEach { item ->
-                database.child("Учащиеся").child(item).get().addOnSuccessListener { dataSnapshot ->
-                    analytics = Analytics()
-                    var qwe = dataSnapshot
-                    dataSnapshot.children.forEach {
-                        if (it.key == "username"){
-                            analytics.fio = it.value as String?
-                        }
-                        else if(it.key == "mood"){
-                            studentMood = it.value as Map<String, String>
-                            for ( (date, mood) in studentMood){
-                                if(date == currentDate){
-                                    analytics.mood = mood
-                                    break
-                                }
-                            }
-                        }
-                    }
-                    analyticsList.add(analytics)
-                }
-            }
-            }
-
-//        database.child("Учителя").child(prefs.teacherEmail).addValueEventListener(
-//                object : ValueEventListener {
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        snapshot.children.forEach {
-//
-//                            corpuseList.clear()
-//                            gradeList.clear()
-//                            letterList.clear()
-//
-//                            teacherInfo = snapshot.value as Map<String, Map<String, Map<String, Map<String, Any>>>>
-//                            for ((corpuse, grades) in teacherInfo) {
-//                                corpuseList.add(corpuse)
-//                                for ((grade, letters) in grades) {
-//                                    gradeList.add(grade)
-//                                    for ((letter, ids) in letters) {
-//                                        letterList.add(letter)
-//                                        for ((id, value) in ids) {
-//                                            studentList.add(id)
-//                                        }
-//                                    }
+//            var analytics: Analytics
+//            studentList.forEach { item ->
+//                database.child("Учащиеся").child(item).get().addOnSuccessListener { dataSnapshot ->
+//                    analytics = Analytics()
+//                    var qwe = dataSnapshot
+//                    dataSnapshot.children.forEach {
+//                        if (it.key == "username"){
+//                            analytics.fio = it.value as String?
+//                        }
+//                        else if(it.key == "mood"){
+//                            studentMood = it.value as Map<String, String>
+//                            for ( (date, mood) in studentMood){
+//                                if(date == currentDate){
+//                                    analytics.mood = mood
+//                                    break
 //                                }
 //                            }
 //                        }
-//
 //                    }
-//
-//                    override fun onCancelled(error: DatabaseError) {
-//
-//                    }
+//                    analyticsList.add(analytics)
 //                }
-//        )
-
-        var tmp = studentList
+//            }
     }
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -142,15 +158,6 @@ class AnalyticsFragment : Fragment() {
     ): View? {
         binding = FragmentAnalyticsBinding.inflate(inflater, container, false)
 
-        var adapter = AnalyticsAdapter()
-//        adapter.setData(studentList)
-//        binding.actvCorpuses.setAdapter(corpuseAdapter)
-//        binding.actvClasses.setAdapter(classAdapter)
-//        binding.actvLetters.setAdapter(letterAdapter)
-//
-//        binding.actvCorpuses.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-//            binding.actvClasses.isEnabled = true
-//        }
 
         return binding.root
     }

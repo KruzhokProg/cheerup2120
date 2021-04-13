@@ -37,7 +37,7 @@ class TeacherFragment : Fragment() {
             val pass = binding.etTeacherPass.text.toString().trim()
 
             if (email.isNotEmpty() and pass.isNotEmpty()) {
-
+                binding.pbLoadTeacherAccount.visibility = View.VISIBLE
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pass)
                         .addOnSuccessListener {
 //                    reference = Firebase.database.reference.child("Teachers").equalTo(email)
@@ -58,6 +58,7 @@ class TeacherFragment : Fragment() {
 
                                 override fun onCancelled(error: DatabaseError) {
                                     Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+                                    binding.pbLoadTeacherAccount.visibility = View.INVISIBLE
                                 }
                             }
 
@@ -66,6 +67,7 @@ class TeacherFragment : Fragment() {
                         }
                         .addOnFailureListener {
                             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                            binding.pbLoadTeacherAccount.visibility = View.INVISIBLE
                         }
             }
             else{

@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(prefs.myUUId.isNotEmpty()){
+        if(prefs.myUUId.isNotEmpty() && prefs.teacherEmail.isNotEmpty()){
             startActivity(Intent(this, StudentActivity::class.java))
         }
         else if(prefs.teacherEmail.isNotEmpty()){

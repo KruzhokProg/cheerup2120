@@ -43,13 +43,17 @@ class BarcodeResultBottomSheet: BottomSheetDialogFragment() {
                 //        .also { it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)})
                 val uuid = UUID.randomUUID().toString()
                 database = Firebase.database.reference
-                database.child("Учащиеся").child(uuid).setValue(student)
-                database.child("Учителя").child(teacherEmail).child(corpuse).child(grade).child(letter).child(uuid).setValue("")
+//                database.child("Учащиеся").child(uuid).setValue(student)
+                database.child("Учителя").child(teacherEmail).child(corpuse).child(grade).child(letter).child(uuid)
+                        .setValue(student)
 
                 prefs.myUUId = uuid
                 prefs.studentFIO = fio
-                prefs.studentClass = "$grade$letter     $corpuse"
-                prefs.teacherEmail = ""
+                prefs.studentClass = grade
+                prefs.studentClassLetter = letter
+                prefs.studentCorpus = corpuse
+//                prefs.studentClass = "$grade$letter     $corpuse"
+                prefs.teacherEmail = teacherEmail
                 val intent = Intent(it.context, StudentActivity::class.java)
                 startActivity(intent)
             }

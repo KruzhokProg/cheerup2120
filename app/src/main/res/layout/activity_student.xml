@@ -27,31 +27,31 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:elevation="100dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Иванов Иван Иванович"
                 android:textColor="@color/white"
                 android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_exit_student"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvStudClassInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:elevation="100dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="9a   ш1"
-                android:textColor="@color/white"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tvStudFIO"
-                app:layout_constraintTop_toBottomOf="@+id/tvStudFIO" />
+<!--            <TextView-->
+<!--                android:id="@+id/tvStudClassInfo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:elevation="100dp"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+<!--                android:text="9a   ш1"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:visibility="visible"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/tvStudFIO"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tvStudFIO" />-->
 
             <ImageView
                 android:id="@+id/btn_exit_student"

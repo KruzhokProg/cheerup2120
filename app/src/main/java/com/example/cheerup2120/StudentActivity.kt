@@ -38,7 +38,7 @@ class StudentActivity : AppCompatActivity() {
         checkTodayVote2()
         setSupportActionBar(binding.toolbarStudent)
         binding.tvStudFIO.text = prefs.studentFIO
-        binding.tvStudClassInfo.text = prefs.studentClass
+        //binding.tvStudClassInfo.text = prefs.studentClass
 
     }
 
@@ -67,7 +67,10 @@ class StudentActivity : AppCompatActivity() {
 //    }
 
     fun imgvGoodMood_Click(view: View) {
-        database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("good")
+//        database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("good")
+        database.child("Учителя").child(prefs.teacherEmail).child(prefs.studentCorpus)
+                .child(prefs.studentClass).child(prefs.studentClassLetter).child(prefs.myUUId)
+                .child("mood").child(currentDate).setValue("good")
         binding.imgvGoodMood.zoomOut(1500)
                 .mergeWith(binding.imgvNeutralMood.zoomIn(1500))
                 .mergeWith(binding.imgvBadMood.zoomIn(1500))
@@ -75,7 +78,10 @@ class StudentActivity : AppCompatActivity() {
     }
 
     fun imgvNeutralMood_Click(view: View) {
-        database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("normal")
+//        database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("normal")
+        database.child("Учителя").child(prefs.teacherEmail).child(prefs.studentCorpus)
+                .child(prefs.studentClass).child(prefs.studentClassLetter).child(prefs.myUUId)
+                .child("mood").child(currentDate).setValue("normal")
         binding.imgvNeutralMood.zoomOut(1500)
                 .mergeWith(binding.imgvGoodMood.zoomIn(1500))
                 .mergeWith(binding.imgvBadMood.zoomIn(1500))
@@ -83,7 +89,10 @@ class StudentActivity : AppCompatActivity() {
     }
 
     fun imgvBadMood_Click(view: View) {
-        database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("bad")
+//        database.child("Учащиеся").child(prefs.myUUId).child("mood").child(currentDate).setValue("bad")
+        database.child("Учителя").child(prefs.teacherEmail).child(prefs.studentCorpus)
+                .child(prefs.studentClass).child(prefs.studentClassLetter).child(prefs.myUUId)
+                .child("mood").child(currentDate).setValue("bad")
         binding.imgvBadMood.zoomOut(1500)
                 .mergeWith(binding.imgvGoodMood.zoomIn(1500))
                 .mergeWith(binding.imgvNeutralMood.zoomIn(1500))
@@ -92,6 +101,7 @@ class StudentActivity : AppCompatActivity() {
 
     fun exit_student_account(view: View) {
         prefs.myUUId = ""
+        prefs.teacherEmail=""
         startActivity(Intent(this, MainActivity::class.java))
     }
 
@@ -110,17 +120,21 @@ class StudentActivity : AppCompatActivity() {
 
     }
 
+
     fun checkTodayVote2(){
-        database.child("Учащиеся").child(prefs.myUUId).child("mood").get().addOnSuccessListener {
-            var exist = false
-            var moodValue: String = ""
-            it.children.forEach {
-                if(it.key == currentDate){
-                    exist = true
-                    moodValue = it.value as String
-                    return@forEach
-                }
-            }
+//        database.child("Учащиеся").child(prefs.myUUId).child("mood").get().addOnSuccessListener {
+        database.child("Учителя").child(prefs.teacherEmail).child(prefs.studentCorpus)
+                .child(prefs.studentClass).child(prefs.studentClassLetter).child(prefs.myUUId)
+                .child("mood").get().addOnSuccessListener {
+                    var exist = false
+                    var moodValue: String = ""
+                    it.children.forEach {
+                        if(it.key == currentDate){
+                            exist = true
+                            moodValue = it.value as String
+                            return@forEach
+                        }
+                    }
 
             if (exist){
                 binding.imgvVoteDone.alpha = 0f
@@ -183,6 +197,7 @@ class StudentActivity : AppCompatActivity() {
             }
         }
         database.child("Учащиеся").child(prefs.myUUId).child("mood").addValueEventListener(listener)
+//        database.child("Учителя").child(prefs.teacherEmail).child(prefs.)rereg
     }
 
     fun View.fadeIn(duration: Long): Completable {

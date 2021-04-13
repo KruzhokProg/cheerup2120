@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cheerup2120">
-        <activity android:name=".NavigationTeacherActivity"></activity>
-        <activity android:name=".ScanQRActivity"></activity>
+        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".NavigationTeacherActivity" />
+        <activity android:name=".ScanQRActivity" />
         <activity android:name=".StudentActivity" />
-        <activity android:name=".TeacherActivity"></activity>
+        <activity android:name=".TeacherActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

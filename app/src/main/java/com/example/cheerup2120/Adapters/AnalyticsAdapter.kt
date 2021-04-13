@@ -1,5 +1,6 @@
 package com.example.cheerup2120.Adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +43,15 @@ class AnalyticsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         val fio: TextView = itemView.findViewById(R.id.tvItemFIOAnalytics)
         val imgv: ImageView = itemView.findViewById(R.id.imgvItemAnalytics)
 
+        @SuppressLint("ResourceType")
         fun bind(analytics: Analytics){
             fio.text = analytics.fio
+            when(analytics.mood){
+                "good" -> imgv.setImageResource(R.drawable.ic_thumb_good)
+                "normal" -> imgv.setImageResource(R.drawable.ic_thumb_neutral)
+                "bad" -> imgv.setImageResource(R.drawable.ic_thumb_bad)
+                else -> imgv.setImageResource(R.drawable.ic_wait_answer)
+            }
 //            imgv.setImageResource(analytics.image)
         }
     }

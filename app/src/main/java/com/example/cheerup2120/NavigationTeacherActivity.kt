@@ -3,6 +3,7 @@ package com.example.cheerup2120
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.cheerup2120.Fragments.AddStudentBottomSheetFragment
 import com.example.cheerup2120.Fragments.AddStudentFragment
 import com.example.cheerup2120.Fragments.AnalyticsFragment
 import com.example.cheerup2120.databinding.ActivityNavigationTeacherBinding
@@ -17,12 +18,12 @@ class NavigationTeacherActivity : AppCompatActivity() {
         binding = ActivityNavigationTeacherBinding.inflate(layoutInflater)
         setContentView(binding.root)
         title = resources.getString(R.string.menu_1)
-        loadFragment(AddStudentFragment())
+        loadFragment(AddStudentBottomSheetFragment())
         binding.navigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_qr -> {
                     title = resources.getString(R.string.menu_1)
-                    loadFragment(AddStudentFragment())
+                    loadFragment(AddStudentBottomSheetFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
 
