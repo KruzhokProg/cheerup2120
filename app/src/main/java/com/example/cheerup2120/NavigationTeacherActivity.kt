@@ -37,6 +37,10 @@ class NavigationTeacherActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+
+    }
+
     private fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.container.id, fragment)

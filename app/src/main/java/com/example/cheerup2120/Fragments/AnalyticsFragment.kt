@@ -1,6 +1,7 @@
 package com.example.cheerup2120.Fragments
 
 import android.R
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.example.cheerup2120.Adapters.AnalyticsAdapter
+import com.example.cheerup2120.MainActivity
 import com.example.cheerup2120.Models.Analytics
 import com.example.cheerup2120.Models.Corpuse
 import com.example.cheerup2120.Models.TeacherInfo
@@ -89,7 +91,7 @@ class AnalyticsFragment : Fragment() {
                         val sorted = analyticsList.sortedBy { it.mood }
                         adapter!!.setData(sorted)
                         binding.rvTeacherAnalytics.adapter = adapter
-                        binding.pbLoadTeacherAccount.visibility = View.INVISIBLE
+                        binding.pbAdmin.visibility = View.INVISIBLE
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -158,6 +160,11 @@ class AnalyticsFragment : Fragment() {
     ): View? {
         binding = FragmentAnalyticsBinding.inflate(inflater, container, false)
 
+        binding.btnExitTeacher.setOnClickListener{
+            prefs.teacherEmail=""
+            prefs.myUUId=""
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
 
         return binding.root
     }

@@ -15,6 +15,7 @@ class Prefs(context: Context) {
         private const val KEY_VOTE = "todayVote"
         private const val KEY_STUDENT_CORPUSE = "studentCorpus"
         private const val KEY_STUDENT_CLASS_LETTER = "studentClassLetter"
+        private const val KEY_ADMIN = "admin"
     }
 
     private val sharedPref: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
@@ -40,4 +41,7 @@ class Prefs(context: Context) {
     var studentClassLetter: String
         get() = sharedPref.getString(KEY_STUDENT_CLASS_LETTER, "") ?: ""
         set(value) = sharedPref.edit{ putString(KEY_STUDENT_CLASS_LETTER, value)}
+    var admin: String
+        get() = sharedPref.getString(KEY_ADMIN, "") ?: ""
+        set(value) = sharedPref.edit{ putString(KEY_ADMIN, value)}
 }

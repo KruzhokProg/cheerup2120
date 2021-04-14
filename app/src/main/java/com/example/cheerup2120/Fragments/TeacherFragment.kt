@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.cheerup2120.AdminActivity
 import com.example.cheerup2120.NavigationTeacherActivity
 import com.example.cheerup2120.TeacherActivity
+import com.example.cheerup2120.Utils.Crypto
 import com.example.cheerup2120.Utils.prefs
 import com.example.cheerup2120.databinding.FragmentTeacherBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -36,7 +38,13 @@ class TeacherFragment : Fragment() {
             var email = binding.etTeacherEmail.text.toString().trim()
             val pass = binding.etTeacherPass.text.toString().trim()
 
-            if (email.isNotEmpty() and pass.isNotEmpty()) {
+            if(Crypto.getSHA256(email) =="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+                    && Crypto.getSHA256(pass) == "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" ){
+                val intent = Intent(context, AdminActivity::class.java)
+                prefs.admin = "logedin"
+                startActivity(intent)
+            }
+            else if (email.isNotEmpty() and pass.isNotEmpty()) {
                 binding.pbLoadTeacherAccount.visibility = View.VISIBLE
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pass)
                         .addOnSuccessListener {

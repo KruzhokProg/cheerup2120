@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_color">#4b0082</color>
+
+    <color name="goodMood">#4CAF50</color>
+    <color name="badMood">#F44336</color>
+    <color name="neutralMood">#FFC107</color>
+    <color name="notAnsMood">#aaa</color>
 </resources>
