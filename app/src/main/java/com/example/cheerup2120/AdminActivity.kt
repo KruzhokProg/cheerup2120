@@ -2,11 +2,13 @@ package com.example.cheerup2120
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.cheerup2120.Models.AdminAnalytics
 import com.example.cheerup2120.Models.Analytics
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -28,6 +31,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.mlkit.common.sdkinternal.CommonUtils
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.util.*
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
 
 class AdminActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdminBinding
@@ -37,7 +46,10 @@ class AdminActivity : AppCompatActivity() {
     private var adminAnalyticsList: ArrayList<AdminAnalytics> = ArrayList()
     private val sdf = SimpleDateFormat("dd-MM-yyyy")
     private val currentDate: String = sdf.format(Date())
+    private var selectedDate: String? = null
+    private var selectedCorpuse: String? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,26 +60,56 @@ class AdminActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+        binding.btnDateRangeAdmin.setOnClickListener {
+            val datePicker =
+                    MaterialDatePicker.Builder.datePicker()
+                            .setTitleText("Выберите дату")
+                            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                            .build()
+
+//            val dateRangePicker =
+//                    MaterialDatePicker.Builder.dateRangePicker()
+//                            .setTitleText("Select dates")
+//                            .setSelection(
+//                                    Pair(
+//                                            MaterialDatePicker.thisMonthInUtcMilliseconds(),
+//                                            MaterialDatePicker.todayInUtcMilliseconds()
+//                                    )
+//                            )
+//                            .build()
+            datePicker.show(supportFragmentManager, "tag")
+
+            datePicker.addOnPositiveButtonClickListener {
+                val selectedDateInMillisecs = datePicker.selection
+                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                val instant = selectedDateInMillisecs?.let { it1 -> Instant.ofEpochMilli(it1) }
+                val date = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                selectedDate = formatter.format(date)
+                getAdminAnalytics(selectedCorpuse ?: "все", selectedDate ?: currentDate)
+            }
+        }
+
         database = Firebase.database.reference
         val corpuses = arrayOf("все","ш1","ш2","ш3","ш4")
         val corpuseAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, corpuses)
         binding.actvCorpuses.setText("все")
         binding.actvCorpuses.setAdapter(corpuseAdapter)
-        getAdminAnalytics("все")
+        getAdminAnalytics("все", currentDate)
 
         binding.actvCorpuses.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val selectedCorpuse = parent.getItemAtPosition(position).toString()
-            getAdminAnalytics(selectedCorpuse)
+            selectedCorpuse = parent.getItemAtPosition(position).toString()
+            getAdminAnalytics(selectedCorpuse!!, selectedDate ?: currentDate)
         }
         setContentView(binding.root)
     }
 
-    private fun getAdminAnalytics(corpuse: String){
+    private fun getAdminAnalytics(corpuse: String, dateFromPicker: String){
         var analytics = AdminAnalytics()
-
+        binding.tvNoDataDisplay.visibility = View.INVISIBLE
         database.child("Учителя").addValueEventListener(
                 object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
+                        adminAnalyticsList.clear()
                         snapshot.children.forEach{
                             adminInfo = it.value as Map<String, Map<String, Map<String, Map<String, Map<String, Any>>>>>
                             for( (corpuse, grades) in adminInfo ){
@@ -82,7 +124,7 @@ class AdminActivity : AppCompatActivity() {
                                                 else if(userInfo.key == "mood"){
                                                     if(userInfo.value is Map<*, *>){
                                                         for ( (date, moodValue) in userInfo.value as Map<*, *>){
-                                                            if(date == currentDate){
+                                                            if(date == dateFromPicker){
                                                                 analytics.mood = moodValue as String
                                                                 break
                                                             }
@@ -90,7 +132,9 @@ class AdminActivity : AppCompatActivity() {
                                                     }
                                                 }
                                             }
-                                            adminAnalyticsList.add(analytics)
+                                            if(analytics.mood != null) {
+                                                adminAnalyticsList.add(analytics)
+                                            }
                                             analytics = AdminAnalytics()
                                         }
                                     }
@@ -98,6 +142,9 @@ class AdminActivity : AppCompatActivity() {
                             }
                         }
                         binding.pbAdmin.visibility = View.INVISIBLE
+//                        if (adminAnalyticsList.size == 0){
+//                            binding.tvNoDataDisplay.visibility = View.VISIBLE
+//                        }
                         val num_bad: Float
                         val num_good: Float
                         val num_normal: Float
@@ -114,6 +161,11 @@ class AdminActivity : AppCompatActivity() {
                             num_normal = adminAnalyticsList.filter { it.corpuse == corpuse && it.mood == "normal" }.size.toFloat()
                             num_not_answered = adminAnalyticsList.filter { (it.corpuse == corpuse) && it.mood.isNullOrEmpty() }.size.toFloat()
                         }
+
+                        if( (num_good + num_bad + num_normal + num_not_answered) == 0f){
+                                binding.tvNoDataDisplay.visibility = View.VISIBLE
+                        }
+
                         setPieChartData(num_good, num_normal, num_bad, num_not_answered)
                     }
 

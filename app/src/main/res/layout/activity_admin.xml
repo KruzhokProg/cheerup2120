@@ -50,6 +50,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_exit_white" />
+
+            <ImageView
+                android:id="@+id/btnDateRangeAdmin"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="70dp"
+                android:elevation="20dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/btnExitAdmin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnExitAdmin"
+                app:srcCompat="@drawable/ic_datepicker" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -88,6 +100,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvNoDataDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Нет данных"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputCorpuses"
+        app:layout_constraintEnd_toEndOf="@+id/pieChartAdmin"
+        app:layout_constraintStart_toStartOf="@+id/pieChartAdmin"
+        app:layout_constraintTop_toTopOf="@+id/toolbarTeacher" />
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChartAdmin"
         android:layout_width="0dp"
@@ -98,6 +124,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textInputCorpuses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarTeacher" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarTeacher" >
+
+    </com.github.mikephil.charting.charts.PieChart>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

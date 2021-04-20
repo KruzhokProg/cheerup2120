@@ -6,12 +6,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.audiofx.BassBoost
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.util.Log
 import android.util.Size
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -31,7 +34,7 @@ class ScanQRActivity : AppCompatActivity() {
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var analyzer: MyImageAnalyzer
-    private val CAMERA_REQUEST_CODE = 101
+    private val REQUESTCODE = 101
     private val TAG = "Permission"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,17 +42,19 @@ class ScanQRActivity : AppCompatActivity() {
         binding = ActivityScanQRBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //setupPermissions()
+//        checkCameraPermission()
+        checkForPermissions(Manifest.permission.CAMERA, "camera", REQUESTCODE)
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        
-        cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-            bindPreview(cameraProvider)
-        }, ContextCompat.getMainExecutor(this))
+//        cameraExecutor = Executors.newSingleThreadExecutor()
+//        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+//
+//        cameraProviderFuture.addListener({
+//            val cameraProvider = cameraProviderFuture.get()
+//            bindPreview(cameraProvider)
+//        }, ContextCompat.getMainExecutor(this))
+//
+//        analyzer = MyImageAnalyzer(supportFragmentManager)
 
-        analyzer = MyImageAnalyzer(supportFragmentManager)
     }
 
     @SuppressLint("UnsafeExperimentalUsageError")
@@ -70,6 +75,7 @@ class ScanQRActivity : AppCompatActivity() {
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
 
         cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)
+
     }
 
     private fun checkCameraPermission() {
@@ -87,33 +93,68 @@ class ScanQRActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupPermissions() {
-        val permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Permission to record denied")
-            makeRequest()
+    private fun checkForPermissions(permission: String, name: String, requestCode: Int){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            when{
+                ContextCompat.checkSelfPermission(applicationContext, permission) == PackageManager.PERMISSION_GRANTED ->{
+                    setCameraForQR()
+                }
+                shouldShowRequestPermissionRationale(permission) -> showDialog(permission, name, requestCode)
+
+                else -> ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode )
+            }
         }
     }
 
     private fun makeRequest() {
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.CAMERA),
-                CAMERA_REQUEST_CODE)
+                REQUESTCODE)
+    }
+
+    private fun showDialog(permission: String, name: String, requestCode: Int){
+        val builder = AlertDialog.Builder(this)
+
+        builder.apply {
+            setMessage("Требуется доступ к камере")
+            setTitle("Требуется разрешение")
+            setPositiveButton("Ok"){
+                dialog, which ->
+                ActivityCompat.requestPermissions(this@ScanQRActivity, arrayOf(permission), requestCode)
+            }
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
-            CAMERA_REQUEST_CODE -> {
+            REQUESTCODE -> {
 
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
 
+                    Toast.makeText(this, "Отказано в доступе к камере", Toast.LENGTH_SHORT).show()
                     Log.i(TAG, "Permission has been denied by user")
+
                 } else {
+                    Toast.makeText(this, "Доступ к камере разрешен", Toast.LENGTH_SHORT).show()
                     Log.i(TAG, "Permission has been granted by user")
+                    setCameraForQR()
                 }
             }
         }
+    }
+
+    private fun setCameraForQR(){
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+            bindPreview(cameraProvider)
+        }, ContextCompat.getMainExecutor(this))
+
+        analyzer = MyImageAnalyzer(supportFragmentManager)
     }
 }

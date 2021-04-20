@@ -86,7 +86,6 @@ class AddStudentBottomSheetFragment : Fragment() {
                     binding.textInputFIOToQR.error = "Некорректный ввод: уажите фамилию, имя и отчество(если есть) через пробел"
                     isFioValid = false
                 }
-
             }
 
             override fun afterTextChanged(s: Editable?) {
